@@ -2,16 +2,16 @@ import nodemailer from "nodemailer";
 import  crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import adminModel from "../models/admin.js";
+import customerModel from "../models/customer.js";
 import {config} from "../../config.js";
-const registerAdminController = {};
+const registerCustomerController = {};
 
-registerAdminController.register = async (req, res) =>{
+registerCustomerController.register = async (req, res) =>{
     try {
         const {name, email, password, isVerified, loginAttempts, timeOut} = req.body;
-        const adminExist = adminModel.findOne({email});
-        if(adminExist){
-            return res.status(400).json({message: "Admin already exists"});
+        const customerExist = customerModelModel.findOne({email});
+        if(customerExist){
+            return res.status(400).json({message: "Customer already exists"});
         }
 
         const passwordHashed = await bcrypt.hash(password, 10);
@@ -48,7 +48,7 @@ registerAdminController.register = async (req, res) =>{
     }
 };
 
-registerAdminController.verifyCode = async (req, res) =>{
+registerCustomerController.verifyCode = async (req, res) =>{
     try {
         const {verificationCodeRequest} = req.body;
         const token = req.cookies.registrationCookie;
@@ -60,17 +60,17 @@ registerAdminController.verifyCode = async (req, res) =>{
             return res.status(100).json({message: "invalid code"});
         }
 
-        const newAdmin = adminModel({
+        const newCustomer = customerModel({
             name, email, password, isVerified: true,
         });
 
-        await newAdmin.save();
+        await newCustomer.save();
         res.clearCookie("registrationCookie");
-        return res.status(200).json({message: "Admin registered succesfully"});
+        return res.status(200).json({message: "Customer registered succesfully"});
     } catch (error) {
         console.log("error " + error);
         return res.status(500).json({message: "Internal server error"})
     }
 };
 
-export default registerAdminController;
+export default registerCustomerController;
