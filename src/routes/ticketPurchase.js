@@ -10,7 +10,7 @@ router.route("/")
 .post(validateAuthCookie(["customer"]),ticketController.createPurchase)
 
 router.route("/:id")
-.put (ticketController.updatePurchase)
+.put (validateAuthCookie(["admin", "customer"]),ticketController.updatePurchase)
 .delete(validateAuthCookie(["admin"]), ticketController.deletePurchase)
 
 export default router;

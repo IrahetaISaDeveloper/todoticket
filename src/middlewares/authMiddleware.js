@@ -4,7 +4,7 @@ import {config} from "../../config.js";
 export const validateAuthCookie = (allowedTypes = {}) =>{
     return (req, res, next) =>{
         try {
-            const {authCookie} = req.cookie;
+            const {authCookie} = req.cookies;
 
             if(!authCookie){
                 return res.status(403).json({message: "No cookie found, Authorize is required"})

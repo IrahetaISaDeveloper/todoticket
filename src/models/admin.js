@@ -12,7 +12,7 @@
 import { Schema, model } from "mongoose";
 
 const adminSchema = new Schema({
-    name:{type: String},
+    names:{type: String},
     email:{type: String},
     password:{type: String},
     isVerified:{type:Boolean},

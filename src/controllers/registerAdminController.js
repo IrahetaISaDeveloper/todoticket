@@ -8,8 +8,8 @@ const registerAdminController = {};
 
 registerAdminController.register = async (req, res) =>{
     try {
-        const {name, email, password, isVerified, loginAttempts, timeOut} = req.body;
-        const adminExist = adminModel.findOne({email});
+        const {names, email, password, isVerified, loginAttempts, timeOut} = req.body;
+        const adminExist = await adminModel.findOne({email});
         if(adminExist){
             return res.status(400).json({message: "Admin already exists"});
         }
@@ -18,7 +18,7 @@ registerAdminController.register = async (req, res) =>{
         const randomCode = crypto.randomBytes(3).toString("hex");
 
         const token = jsonwebtoken.sign(
-            {randomCode, name, email, password: passwordHashed, isVerified, loginAttempts, timeOut},
+            {randomCode, names, email, password: passwordHashed, isVerified, loginAttempts, timeOut},
             config.JWT.Secret,
             {expiresIn: "15m"},
         );
@@ -54,14 +54,14 @@ registerAdminController.verifyCode = async (req, res) =>{
         const token = req.cookies.registrationCookie;
         const decoded = jsonwebtoken.verify(token, config.JWT.Secret);
 
-        const {randomCode:storedCode, name, email, password, isVerified, loginAttempts, timeOut }= decoded;
+        const {randomCode:storedCode, names, email, password, isVerified, loginAttempts, timeOut }= decoded;
 
         if(verificationCodeRequest !== storedCode){
             return res.status(100).json({message: "invalid code"});
         }
 
         const newAdmin = adminModel({
-            name, email, password, isVerified: true,
+            names, email, password, isVerified: true,
         });
 
         await newAdmin.save();
