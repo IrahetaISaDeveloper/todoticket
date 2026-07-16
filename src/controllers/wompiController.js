@@ -4,11 +4,11 @@ import {config} from "../../config.js";
 
 const wompiController = {};
 
-wompiController.generarToken = async (req, res) =>{
+wompiController.generarToken = async  (req, res) =>{
     try {
-        const response = await fetch("https://id.wompi.sv/connect/token",{
+        const response = await fetch("https://id.wompi.sv/connect/Token",{
             method: "POST",
-            headers:{"Content-Type": "application/x-form-urlencoded",},
+            headers:{"Content-Type": "application/x-www-form-urlencoded",},
             body: new URLSearchParams({
                 grant_type: config.wompi.grant_type,
                 audience: config.wompi.audience,
@@ -19,11 +19,11 @@ wompiController.generarToken = async (req, res) =>{
 
         if(!response){
             const error = await response.text();
-            return res.status(500).json({error});
+            return res.status(500).json({message :"error" + error});
         }
 
         const data = await response.json();
-        return res.status(500).json({message: "Internal server error"});
+        return res.status(200).json(data)        
     } catch (error) {
         console.error("error " + error);
         return res.status(500).json({message:"Internal server error"})
@@ -35,12 +35,12 @@ wompiController.paymentTest = async (req, res) =>{
         const {token, formData} = req.body;
 
         const response = await fetch(
-            "https://api.wompi.sv/TransaccionCompra/tokenSin3Ds",
+            "https://api.wompi.sv/TransaccionCompra/TokenizadaSin3Ds",
             {
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
-                    authorization: 'Bearer ${token}',
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(formData),
             },
