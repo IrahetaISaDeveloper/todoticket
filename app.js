@@ -32,7 +32,7 @@ app.use("/api/loginCustomer", loginCustomer);
 app.use("/api/logout", logout);
 
 app.use("/api/registerAdmin", registerAdmin);
-app.use("/registerCustomer", registerCustomer);
+app.use("/api/registerCustomer", registerCustomer);
 
 app.use("/api/ticketPurchase", ticketPurchase);
 

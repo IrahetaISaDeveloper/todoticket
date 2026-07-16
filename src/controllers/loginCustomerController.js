@@ -13,7 +13,7 @@ loginCustomerController.login = async (req, res) => {
             return res.status(100).json({message: "customer not found"});
         }
 
-        if(customerFound, timeOut && customerFound.timeOut>Date.now()){
+        if(customerFound.timeOut && customerFound.timeOut>Date.now()){
             return res.status(403).json({message: "Blocked account"});
         }
 

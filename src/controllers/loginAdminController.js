@@ -9,13 +9,15 @@ loginAdminController.login = async (req, res) => {
     try {
         const {email, password} = req.body;
         const adminFound = await adminModel.findOne({email});
+        console.log({adminFound})
         if(!adminFound){
             return res.status(100).json({message: "admin not found"});
         }
 
-        if(adminFound, timeOut && adminFound.timeOut>Date.now()){
+        if(adminFound.timeOut && adminFound.timeOut>Date.now()){
             return res.status(403).json({message: "Blocked account"});
         }
+                console.log({password, password:adminFound.password})
 
         const isMatch = await bcrypt.compare(password, adminFound.password);
         if(!isMatch){

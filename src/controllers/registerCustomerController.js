@@ -9,7 +9,7 @@ const registerCustomerController = {};
 registerCustomerController.register = async (req, res) =>{
     try {
         const {name, email, password, isVerified, loginAttempts, timeOut} = req.body;
-        const customerExist = customerModelModel.findOne({email});
+        const customerExist = await customerModel.findOne({email});
         if(customerExist){
             return res.status(400).json({message: "Customer already exists"});
         }
