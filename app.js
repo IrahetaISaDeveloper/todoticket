@@ -1,4 +1,4 @@
-import wompi from "./src/routes/wompi";
+import wompi from "./src/routes/wompi.js";
 
 import loginAdmin from "./src/routes/loginAdmin.js"
 import loginCustomer from "./src/routes/loginCustomer.js"
@@ -8,7 +8,10 @@ import registerAdmin from "./src/routes/registerAdmin.js";
 import registerCustomer from "./src/routes/registerCustomer.js";
 
 import ticketPurchase from "./src/routes/ticketPurchase.js";
+
 import cookieParser from "cookie-parser";
+import cors from "cors"
+import express from "express"
 
 const app = express();
 
@@ -30,3 +33,5 @@ app.use("/api/registerAdmin", registerAdmin);
 app.use("/registerCustomer", registerCustomer);
 
 app.use("/api/ticketPurchase", ticketPurchase);
+
+export default app;

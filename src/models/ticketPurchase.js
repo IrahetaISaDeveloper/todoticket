@@ -7,11 +7,12 @@
     transactionId
 */
 
-import {Schema, model} from "mongoose";
+
+import mongoose, {Schema, model} from "mongoose";
 
 const ticketPurchaseSchema = new Schema({
     customerId:{
-        type: mongoose.Types.objectId,
+        type: mongoose.Types.ObjectId,
         ref:"Customer"
     },
     quantity:{type: String},
